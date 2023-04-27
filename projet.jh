@@ -1,0 +1,152 @@
+/**
+ * Définition des entités
+ */
+ entity Partenaire{
+   Id String,
+  Num String,
+  Libelle String,
+  Adresse String,
+  Taux Integer,
+  Status Integer,
+  DateCreation Instant,
+  DateUpdate Instant
+}
+entity Agence {
+  Id String,
+  NumAgence String,
+  Libelle String,
+  Adresse String,
+  Partenaire Partenaire,
+  DateCreate Instant,
+  DateUpdate Instant,
+  Status Integer
+}
+
+entity AspNetRoleClaim {
+  Id Integer,
+  RoleId String,
+  ClaimType String,
+  ClaimValue String
+}
+
+entity AspNetRole {
+  Id String,
+  Name String,
+  NormalizedName String,
+  ConcurrencyStamp String
+}
+
+entity AspNetUserClaim {
+  Id Integer,
+  UserId String,
+  ClaimType String,
+  ClaimValue String
+}
+
+entity AspNetUserLogin {
+  LoginProvider String,
+  ProviderKey String,
+  ProviderDisplayName String,
+  UserId String
+}
+
+entity AspNetUserRole {
+  UserId String,
+  RoleId String
+}
+
+entity AspNetUser {
+  Id String,
+  UserName String,
+  NormalizedUserName String,
+  Email String,
+  NormalizedEmail String,
+  EmailConfirmed Boolean,
+  PasswordHash String,
+  SecurityStamp String,
+  ConcurrencyStamp String,
+  PhoneNumber String,
+  PhoneNumberConfirmed Boolean,
+  TwoFactorEnabled Boolean,
+  LockoutEnd Instant,
+  LockoutEnabled Boolean,
+  AccessFailedCount Integer
+}
+
+entity AspNetUserToken {
+  UserId String,
+  LoginProvider String,
+  Name String,
+  Value String
+}
+
+entity DetailAgent {
+  Id String,
+  IdUser String,
+  IdGuichet String,
+  Num String,
+  Nom String,
+  Prenom String,
+  Status Integer
+}
+
+entity DetailAnnulationPaiement {
+  Id String,
+  MotifAnnulation String,
+  IdUser String,
+  IdPaiement String,
+  IdDemandeur String
+}
+
+entity DetailPartenaireAgence {
+  Id String,
+  IdPartenaire String,
+  IdAgence String
+  partenaire Partenaire,
+}
+
+entity DetailUserGuichet {
+  Id String,
+  IdUser String,
+  IdGuichet String
+}
+
+entity FichierPaiement {
+  Id String,
+  Url String,
+  Nom String,
+  DateAjout String,
+  DatePourPaiement String,
+  IdUsers String
+}
+
+entity Guichet {
+  Id String,
+  NumGuichet String,
+  Libelle String,
+  IdAgence String
+}
+
+/**
+ * Définition des relations
+ */
+relationship ManyToOne {
+  AspNetRoleClaim{AspNetRole} to AspNetRole,
+  AspNetUserClaim{AspNetUser} to AspNetUser,
+  AspNetUserLogin{AspNetUser} to AspNetUser,
+  AspNetUserRole{AspNetUser} to AspNetUser,
+  AspNetUserRole{AspNetRole} to AspNetRole,
+  AspNetUserToken{AspNetUser} to AspNetUser,
+  DetailAgent{AspNetUser} to AspNetUser,
+  DetailAgent{Guichet} to Guichet,
+  DetailAnnulationPaiement{AspNetUser} to AspNetUser,
+  DetailAnnulationPaiement{FichierPaiement} to FichierPaiement,
+  DetailAnnulationPaiement{DetailAgent} to DetailAgent,
+  DetailAnnulationPaiement{DetailPartenaireAgence} to DetailPartenaireAgence,
+  DetailPartenaireAgence{Partenaire} to Partenaire,
+  DetailPartenaireAgence{Agence} to Agence,
+  DetailUserGuichet{AspNetUser} to AspNetUser,
+  DetailUserGuichet{Guichet} to Guichet,
+  FichierPaiement{AspNetUser} to AspNetUser,
+  Guichet{Agence} to Agence
+}
